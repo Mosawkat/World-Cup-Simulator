@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--Mohammed Sawkat-->
+<!--link rel="stylesheet" href="index.css"-->
+<script>
+
+        //Team name, Points, Goals For (scored), Goals Against (conceded), Goal Difference
+        const groupA = [["Brazil", 0 , 0, 0, 0], ["Portugal",  0, 0, 0, 0], ["France", 0, 0, 0, 0], ["Spain", 0, 0, 0, 0]];
+        const groupAClone = [];
+        const groupAQ = [];
+        const games = [];
+
+        const tempa=[];
+        var highest=0;
+        var highestArray;
+        var secondHighest;
+
+
+function initialize()
+{
+    document.getElementById("A1").innerHTML = groupA[0];
+    document.getElementById("A2").innerHTML = groupA[1];
+    document.getElementById("A3").innerHTML = groupA[2];
+    document.getElementById("A4").innerHTML = groupA[3];
+
+    for (var x=0; x<=2; x++)
+    {
+        for (var y=x+1; y<4;y++)
+        {
+            team1 = Math.floor(Math.random() * 11);
+            team2 = Math.floor(Math.random() * 11);
+
+            if (team1 < team2)
+            {   
+                //Y is team 2
+                groupA[y][1]+=3;
+                groupA[y][2]+=team2;
+                groupA[y][3]+=team1;
+                groupA[y][4]+= (team2-team1);
+
+                //X is team 1
+                groupA[x][1]+=0;
+                groupA[x][2]+=team1;
+                groupA[x][3]+=team2;
+                groupA[x][4]+= (team1-team2);
+
+            }
+
+            if (team1 > team2)
+            {   
+                //Y is team 2
+                groupA[y][1]+=0;
+                groupA[y][2]+=team2;
+                groupA[y][3]+=team1;
+                groupA[y][4]+= (team2-team1);
+
+                //X is team 1
+                groupA[x][1]+=3;
+                groupA[x][2]+=team1;
+                groupA[x][3]+=team2;
+                groupA[x][4]+= (team1-team2);
+
+            }
+
+            if (team1 == team2)
+            {   
+                //Y is team 2
+                groupA[y][1]+=1;
+                groupA[y][2]+=team2;
+                groupA[y][3]+=team1;
+                //groupA[y][4]+= (team2-team1);
+
+                //X is team 1
+                groupA[x][1]+=1;
+                groupA[x][2]+=team1;
+                groupA[x][3]+=team2;
+                //groupA[x][4]+= (team1-team2);
+
+            }
+
+            games.push(groupA[x][0],team1, groupA[y][0], team2);
+        }
+    }
+    //Clone Array
+    for (var x=0;x<groupA.length;x++)
+    {
+        groupAClone[x] = groupA[x];
+    }
+    //Find teams with highest points
+
+   for (var i=0; i<4;i++)
+   {
+        console.log(i);
+        if (groupA[i][1] > highest)
+        {
+            highestArray = groupA[i];
+            highest = groupA[i][1];
+        }
+        else if (groupA[i][1] == highest)
+        {
+            console.log("Highest Array:");
+            console.log(highestArray);
+            if (groupA[i][4] > highestArray[4])
+            {
+                secondHighest = highestArray;
+                highestArray = groupA[i];
+            }
+            else
+            {
+                secondHighest = groupA[i];
+            }
+        }
+        groupAClone.splice(i,1);
+        //else if (secondHighest === undefined && highest!= undefined) 
+        //{
+            console.log(groupAClone);
+        //}
+   }
+}
+
+function refresh()
+{
+    document.getElementById("A1").innerHTML = groupA[0];
+    document.getElementById("A2").innerHTML = groupA[1];
+    document.getElementById("A3").innerHTML = groupA[2];
+    document.getElementById("A4").innerHTML = groupA[3];
+
+    document.getElementById("game1").innerHTML = games;
+    document.getElementById("qualified").innerHTML = highestArray;
+    document.getElementById("qualified2").innerHTML = secondHighest;
+}
+</script>
+<html>
+<head>
+    <title>World Cup Simulator</title>
+</head>
+<body onload="initialize();">
+
+<h1> Group A</h1>
+<p> Num - Name - Points[1] - GF[2] - GA[3] - GD[4]</p>
+<h2>1.  <span id="A1"> </span> </h2>
+<h2>2.  <span id="A2"> </span> </h2>
+<h2>3.  <span id="A3"> </span> </h2>
+<h2>4.  <span id="A4"> </span> </h2>
+<h1> Games:</h1>
+<h2 id="game1"> </h2>
+<h1> Teams Qualified:</h1>
+<h2 id="qualified"> </h2>
+<h2 id="qualified2"> </h2>
+<button onclick="refresh();"> Update </button>
+</body>
+</html>
